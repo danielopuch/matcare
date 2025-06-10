@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background: #f8f9fa;">
+    <div class="card shadow-lg border-0 w-100" style="max-width: 800px;">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-6 d-none d-md-block">
+                <img src="/static/health-worker-with-equipment.jpg" alt="Health Worker" class="img-fluid rounded-start" style="height: 100%; object-fit: cover;">
+            </div>
+            <div class="col-md-6 p-4">
+                <div class="text-center mb-4">
+                    <img src="/static/matcarelogo.png" alt="MATCARE Logo" class="img-fluid mb-2" style="max-width: 180px; height: auto;">
+                    <div class="fw-bold text-primary" style="font-size: 1.2rem;">Mbale RRH - MAT Clinic</div>
+                </div>
+                <h3 class="text-center mb-3">Login</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <select class="form-select" id="location" name="location" required>
+                            <option value="">Select Location</option>
+                            <option value="Triage">Triage</option>
+                            <option value="Counselling">Counselling</option>
+                            <option value="Clinician">Clinician</option>
+                            <option value="Laboratory">Laboratory</option>
+                            <option value="Pharmacy">Pharmacy</option>
+                            <option value="HMIS">HMIS (Records Management)</option>
+                            <option value="User Administration">User Administration</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="text-center mt-4 mb-2 text-muted small">
+    &copy; 2025 <a href="https://cessaicares.org" target="_blank" rel="noopener">Cessai Cares</a>. All rights reserved.
+</footer>
+{% endblock %}
+
+{% block navbar %}{% endblock %}

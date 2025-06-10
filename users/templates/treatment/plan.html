@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Treatment Plan</h2>
+    {% if patient_id %}
+        <p>Patient ID: {{ patient_id }}</p>
+    {% endif %}
+    <p>This is the counselling/treatment plan page. (Add plan logic here.)</p>
+</div>
+{% endblock %}

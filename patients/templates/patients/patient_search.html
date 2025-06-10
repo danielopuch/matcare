@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">Search Patients</h2>
+        <form method="get" class="mb-3 d-flex">
+            <input type="text" name="q" class="form-control me-2" placeholder="Search by name or MAT ID" value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        {% if results %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>MAT ID</th>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for patient in results %}
+                    <tr>
+                        <td>{{ patient.mat_id }}</td>
+                        <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                        <td>{{ patient.date_of_birth }}</td>
+                        <td>
+                            <a href="{% url 'patients:dashboard' patient.id %}" class="btn btn-outline-primary btn-sm">Dashboard</a>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                    Send to Department
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/clinician/vitals/?patient_id={{ patient.id }}">Clinician</a></li>
+                                    <li><a class="dropdown-item" href="/treatment/plan/?patient_id={{ patient.id }}">Counselling</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% elif query %}
+            <div class="alert alert-warning">No patients found.</div>
+        {% endif %}
+        <div class="mt-4">
+            <a href="{% url 'patients:register_patient' %}" class="btn btn-success">Add Patient</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

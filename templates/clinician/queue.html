@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Clinician Queue</h2>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>BMI</th>
+                <th>Blood Pressure</th>
+                <th>Waiting Time (min)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in patients %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.age }}</td>
+                <td>{{ p.address }}</td>
+                <td>{{ p.bmi }}</td>
+                <td>{{ p.bp }}</td>
+                <td>{{ p.waiting_time }}</td>
+                <td>
+                    <a href="{% url 'clinician:vitals' %}?patient_id={{ p.id }}" class="btn btn-sm btn-primary">Vitals / Lab Request</a>
+                    <a href="/dispensary/dispense/?patient_id={{ p.id }}" class="btn btn-sm btn-success">Prescribe</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Send</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/laboratory/dispense/?patient_id={{ p.id }}">Laboratory</a></li>
+                            <li><a class="dropdown-item" href="/dispensary/dispense/?patient_id={{ p.id }}">Pharmacy</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

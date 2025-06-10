@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Clinician Vitals</h2>
+    {% if patient_id %}
+        <p>Patient ID: {{ patient_id }}</p>
+    {% endif %}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Vital Signs</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Add vital signs form here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Lab Test Requests</h5>
+                </div>                <div class="card-body">
+                    {% if success %}
+                        <div class="alert alert-success">Lab test request submitted successfully!</div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ lab_request_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Request Lab Tests</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Send Patient Section -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Send Patient To</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                Send to Department
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/laboratory/dispense/?patient_id={{ patient_id }}">Laboratory</a></li>
+                                <li><a class="dropdown-item" href="/dispensary/dispense/?patient_id={{ patient_id }}">Pharmacy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

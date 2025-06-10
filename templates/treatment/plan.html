@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Treatment Plan</h2>
+    {% if patient_id %}
+        <p>Patient ID: {{ patient_id }}</p>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">Session saved successfully!</div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <h4>Stage 1: Session Details</h4>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.session_date.label_tag }}{{ form.session_date }}</div>
+            <div class="col-md-4">{{ form.session_duration.label_tag }}{{ form.session_duration }}</div>
+            <div class="col-md-4">{{ form.session_type.label_tag }}{{ form.session_type }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.counselor_name.label_tag }}{{ form.counselor_name }}</div>
+            <div class="col-md-6">{{ form.patient_mood.label_tag }}{{ form.patient_mood }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.substance_use.label_tag }}{{ form.substance_use }}</div>
+            <div class="col-md-6">{{ form.primary_substance.label_tag }}{{ form.primary_substance }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.frequency_of_use.label_tag }}{{ form.frequency_of_use }}</div>
+            <div class="col-md-6">{{ form.last_use_datetime.label_tag }}{{ form.last_use_datetime }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.craving_intensity.label_tag }}{{ form.craving_intensity }}</div>
+            <div class="col-md-4">{{ form.withdrawal_symptoms.label_tag }}{{ form.withdrawal_symptoms }}</div>
+            <div class="col-md-4">{{ form.cows_score.label_tag }}{{ form.cows_score }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.ciwa_ar_score.label_tag }}{{ form.ciwa_ar_score }}</div>
+            <div class="col-md-4">{{ form.medication_adherence.label_tag }}{{ form.medication_adherence }}</div>
+            <div class="col-md-4">{{ form.barriers_to_adherence.label_tag }}{{ form.barriers_to_adherence }}</div>
+        </div>
+        <hr>
+        <h4>Stage 2: Mental Health & Social</h4>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.mental_health_status.label_tag }}{{ form.mental_health_status }}</div>
+            <div class="col-md-4">{{ form.phq9_score.label_tag }}{{ form.phq9_score }}</div>
+            <div class="col-md-4">{{ form.gad7_score.label_tag }}{{ form.gad7_score }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.suicidal_ideation.label_tag }}{{ form.suicidal_ideation }}</div>
+            <div class="col-md-4">{{ form.recovery_capital.label_tag }}{{ form.recovery_capital }}</div>
+            <div class="col-md-4">{{ form.treatment_goals.label_tag }}{{ form.treatment_goals }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.progress_toward_goals.label_tag }}{{ form.progress_toward_goals }}</div>
+            <div class="col-md-4">{{ form.coping_strategies.label_tag }}{{ form.coping_strategies }}</div>
+            <div class="col-md-4">{{ form.social_support.label_tag }}{{ form.social_support }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">{{ form.housing_status.label_tag }}{{ form.housing_status }}</div>
+            <div class="col-md-4">{{ form.employment_status.label_tag }}{{ form.employment_status }}</div>
+            <div class="col-md-4">{{ form.legal_issues.label_tag }}{{ form.legal_issues }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">{{ form.legal_issues_details.label_tag }}{{ form.legal_issues_details }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">{{ form.overdose_risk_factors.label_tag }}{{ form.overdose_risk_factors }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.naloxone_possession.label_tag }}{{ form.naloxone_possession }}</div>
+            <div class="col-md-6">{{ form.referrals_made.label_tag }}{{ form.referrals_made }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.telehealth_access.label_tag }}{{ form.telehealth_access }}</div>
+            <div class="col-md-6">{{ form.telehealth_barriers.label_tag }}{{ form.telehealth_barriers }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">{{ form.patient_engagement.label_tag }}{{ form.patient_engagement }}</div>
+        </div>
+        <hr>
+        <h4>Stage 3: Summary & Follow-Up</h4>
+        <div class="row mb-3">
+            <div class="col-md-6">{{ form.session_summary.label_tag }}{{ form.session_summary }}</div>
+            <div class="col-md-6">{{ form.follow_up_plan.label_tag }}{{ form.follow_up_plan }}</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Session</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Client List (HMIS)</h2>
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>MAT ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.mat_id }}</td>
+                <td>{{ client.first_name }} {{ client.last_name }}</td>
+                <td>{{ client.gender }}</td>
+                <td>{{ client.date_of_birth }}</td>
+                <td>{{ client.contact_info }}</td>
+                <td>{{ client.address }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

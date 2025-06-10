@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATCARE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    {% load useradmin_tags %}
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-primary" href="/">MATCARE</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link">Hello, {{ user.first_name }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col-md-3 bg-light border-start min-vh-100">
+                <div class="p-3">
+                    {% if user.is_authenticated %}
+                        <div class="mb-3">
+                            <span class="fw-bold">Hello, {{ user.first_name }}</span>
+                            <a href="{% url 'users:logout' %}" class="btn btn-outline-danger btn-sm float-end">Logout</a>
+                        </div>
+                        <hr>
+                        <h6 class="text-muted">Modules</h6>                        <ul class="nav flex-column">
+                            <li class="nav-item"><a class="nav-link" href="/patients/search/">Triage</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/clinician/vitals/">Clinician</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/treatment/plan/">Counselling</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/laboratory/">Laboratory</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/dispensary/dispense/">Pharmacy</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/hmis/clients/">HMIS</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/useradmin/">User Administration</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

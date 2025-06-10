@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Patient Dashboard</h2>
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white"><strong>Demographics</strong></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> {{ patient.first_name }} {{ patient.last_name }}</p>
+                    <p><strong>MAT ID:</strong> {{ patient.mat_id }}</p>
+                    <p><strong>Age:</strong> {% if age %}{{ age }} years{% else %}N/A{% endif %}</p>
+                    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                    <p><strong>Contact:</strong> {{ patient.contact_info }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Address:</strong> {{ patient.address }}</p>
+                    <p><strong>Weight:</strong> {% if patient.weight %}{{ patient.weight }} kg{% else %}N/A{% endif %}</p>
+                    <p><strong>Height:</strong> {% if patient.height %}{{ patient.height }} cm{% else %}N/A{% endif %}</p>
+                    <p><strong>BMI:</strong> {% if bmi %}{{ bmi }}{% else %}N/A{% endif %}</p>
+                    <p><strong>Blood Pressure:</strong> {% if patient.blood_pressure %}{{ patient.blood_pressure }}{% else %}N/A{% endif %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if next_appointment_date %}
+    <div class="alert alert-info">
+        <strong>Next Appointment:</strong> {{ next_appointment_date|date:"F d, Y" }}
+    </div>
+    {% endif %}
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <strong>Encounters History</strong>
+            <div>
+                <a href="{% url 'patients:search_patient' %}" class="btn btn-light btn-sm"><i class="bi bi-search"></i> Back to Search</a>
+            </div>
+        </div>
+        <div class="card-body">
+            {% if encounters %}
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Service</th>
+                        <th>Details</th>
+                        <th>Follow-up</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for e in encounters %}
+                    <tr>
+                        <td>{{ e.date|date:"M d, Y H:i" }}</td>
+                        <td>
+                            <span class="badge {% if e.service == 'Laboratory' %}bg-info{% elif e.service == 'Pharmacy' %}bg-success{% else %}bg-secondary{% endif %}">
+                                {{ e.service }}
+                            </span>
+                        </td>
+                        <td>{{ e.details }}</td>
+                        <td>
+                            {% if e.next_appointment %}
+                            <span class="badge bg-warning text-dark">Next Visit: {{ e.next_appointment|date:"M d, Y" }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No previous encounters found.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white"><strong>Laboratory Tests</strong></div>
+                <div class="card-body">
+                    {% if lab_tests %}
+                    <ul class="list-group">
+                        {% for test in lab_tests|slice:":5" %}
+                        <li class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ test.specimen_collection_datetime|date:"M d, Y" }}</h6>
+                                <small>{{ test.specimen_type }}</small>
+                            </div>
+                            <p class="mb-1">
+                                {% if test.uds and test.uds != "Not Done" %}<span class="badge bg-secondary">UDS: {{ test.uds }}</span>{% endif %}
+                                {% if test.hep_c_ab and test.hep_c_ab != "Not Done" %}<span class="badge bg-secondary">Hep C: {{ test.hep_c_ab }}</span>{% endif %}
+                                {% if test.hiv_ab and test.hiv_ab != "Not Done" %}<span class="badge bg-secondary">HIV: {{ test.hiv_ab }}</span>{% endif %}
+                            </p>
+                            <small>Status: {{ test.test_result_status }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% if lab_tests.count > 5 %}
+                    <div class="mt-2">
+                        <small class="text-muted">Showing the 5 most recent tests ({{ lab_tests.count }} total)</small>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <p>No laboratory tests found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white"><strong>Dispensed Medications</strong></div>
+                <div class="card-body">
+                    {% if dispenses %}
+                    <ul class="list-group">
+                        {% for dispense in dispenses|slice:":5" %}
+                        <li class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ dispense.medication }}</h6>
+                                <small>{{ dispense.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            <p class="mb-1">{{ dispense.dosage }}, Qty: {{ dispense.quantity }}</p>
+                            <small>Instructions: {{ dispense.instructions|truncatechars:100 }}</small>
+                            {% if dispense.next_appointment %}
+                            <div class="mt-2">
+                                <span class="badge bg-warning text-dark">Next Appointment: {{ dispense.next_appointment|date:"F d, Y" }}</span>
+                            </div>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% if dispenses.count > 5 %}
+                    <div class="mt-2">
+                        <small class="text-muted">Showing the 5 most recent medications ({{ dispenses.count }} total)</small>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <p>No dispensed medications found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
