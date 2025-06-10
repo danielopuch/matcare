@@ -1,9 +1,10 @@
 from django.db import models
 from patients.models import Patient
+from django.utils import timezone # Corrected import
 
 class LabTest(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True, related_name='lab_tests')
-    specimen_collection_datetime = models.DateTimeField()
+    specimen_collection_datetime = models.DateTimeField(default=timezone.now) # Add default=timezone.now
     specimen_type = models.CharField(max_length=20)
     uds = models.CharField(max_length=20)
     uds_substances = models.CharField(max_length=200, blank=True)
